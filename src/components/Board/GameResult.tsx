@@ -1,74 +1,84 @@
-import React from "react";
-import Button from "../Button";
-import { useGameContext } from "../Game";
-import { GameStatus, Tile } from "../interfaces";
+import React from "react"
+import Button from "../Button"
+import { useGameContext } from "../Game"
+import { GameStatus, Tile } from "../interfaces"
+import { useGameScores } from "../ScoresContainer/ScoresContainer"
+import { ConnectButton } from "@rainbow-me/rainbowkit"
 
 const DATA = {
-  WIN: {
-    message: "Congratulations! You Win!",
-    buttonText: "Play again",
-    containerClass: "gameResultWin",
-  },
-  GAME_OVER: {
-    message: "Game Over!",
-    buttonText: "Try again",
-    containerClass: "gameResultLose",
-  },
-};
+	WIN: {
+		message: "Congratulations! You Win!",
+		buttonText: "Play again",
+		containerClass: "gameResultWin",
+	},
+	GAME_OVER: {
+		message: "Game Over!",
+		buttonText: "Try again",
+		containerClass: "gameResultLose",
+	},
+}
 
 const Result = (props: {
-  isWin: boolean;
-  onContinue: () => void;
-  onRestart: () => void;
-  playAfterWin: boolean;
-  status: GameStatus;
+	isWin: boolean
+	onContinue: () => void
+	onRestart: () => void
+	playAfterWin: boolean
+	status: GameStatus
 }) => {
-  const { isWin, onContinue, onRestart, playAfterWin } = props;
-  const { message, buttonText, containerClass } =
-    isWin || playAfterWin ? DATA.WIN : DATA.GAME_OVER;
+	const { isWin, onContinue, onRestart, playAfterWin } = props
+	const { message, buttonText, containerClass } =
+		isWin || playAfterWin ? DATA.WIN : DATA.GAME_OVER
 
-  return (
-    <div className={`gameResult ${containerClass}`}>
-      <p>{message}</p>
-      <div>
-        {isWin && (
-          <Button className="continueButton" onClick={() => onContinue()}>
-            Continue
-          </Button>
-        )}
-        <Button onClick={() => onRestart()}>{buttonText}</Button>
-      </div>
-    </div>
-  );
-};
+	return (
+		<div className={`gameResult ${containerClass}`}>
+			<p>{message}</p>
+			<div>
+				{isWin && (
+					<Button
+						className="continueButton"
+						onClick={() => onContinue()}
+					>
+						Continue
+					</Button>
+				)}
+				<Button onClick={() => onRestart()}>{buttonText}</Button>
+				<ConnectButton />
+			</div>
+		</div>
+	)
+}
 
 const GameResultContainer = (props: { tiles: Tile[] }) => {
-  const { gameState, dispatch } = useGameContext();
+	const { gameState, dispatch } = useGameContext()
 
-  const { status } = gameState;
+	const { status } = gameState
 
-  const handleContinue = () => {
-    dispatch({ type: "continue" });
-  };
+	const [scores] = useGameScores()
 
-  const handleRestart = () => {
-    dispatch({ type: "restart" });
-  };
+	console.log({ scores, status })
 
-  const playAfterWin = props.tiles.some((x) => x.value === 2048);
-  return (
-    <>
-      {status !== "IN_PROGRESS" && status !== "PLAY_AFTER_WIN" && (
-        <Result
-          isWin={status === "WIN"}
-          playAfterWin={playAfterWin}
-          onRestart={handleRestart}
-          onContinue={handleContinue}
-          status={status}
-        />
-      )}
-    </>
-  );
-};
+	const handleContinue = () => {
+		dispatch({ type: "continue" })
+	}
 
-export default GameResultContainer;
+	const handleRestart = () => {
+		dispatch({ type: "restart" })
+	}
+
+	const playAfterWin = props.tiles.some((x) => x.value === 2048)
+	return (
+		<>
+			{status !== "IN_PROGRESS" && status !== "PLAY_AFTER_WIN" && (
+				<Result
+					isWin={status === "WIN"}
+					playAfterWin={playAfterWin}
+					onRestart={handleRestart}
+					onContinue={handleContinue}
+					status={status}
+				/>
+			)}
+		</>
+	)
+}
+
+export default GameResultContainer
