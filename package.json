@@ -1,6 +1,5 @@
 {
-	"homepage": "http://grigorzyapkov.github.io/2048game",
-	"name": "2048game",
+	"name": "spacebar2048",
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {
