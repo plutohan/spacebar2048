@@ -33,77 +33,116 @@
 .tile-2 {
   .tileInner {
     background: #eee4da;
+    background-image: url('../../../public/img/tile1.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+
   }
 }
 .tile-4 {
   .tileInner {
     background: #eee1c9;
+    background-image: url('../../../public/img/tile2.png');
+    background-size: contain;
+    background-repeat: no-repeat;
   }
 }
 .tile-8 {
   .tileInner {
     color: #f9f6f2;
-    background: #f3b27a;
+    background: #eee1c9;
+    background-image: url('../../../public/img/tile3.png');
+    background-size: contain;
+    background-repeat: no-repeat;
   }
 }
 .tile-16 {
   .tileInner {
     color: #f9f6f2;
-    background: #f69664;
+    background: #eee1c9;
+    background-image: url('../../../public/img/tile4.png');
+    background-size: contain;
+    background-repeat: no-repeat;
   }
 }
 .tile-32 {
   .tileInner {
     color: #f9f6f2;
-    background: #f77c5f;
+    background: #f3b27a;
+    background-image: url('../../../public/img/tile5.png');
+    background-size: contain;
+    background-repeat: no-repeat;
   }
 }
 .tile-64 {
   .tileInner {
     color: #f9f6f2;
-    background: #f75f3b;
+    background: #f3b27a;
+    background-image: url('../../../public/img/tile6.png');
+    background-size: contain;
+    background-repeat: no-repeat;
   }
 }
 .tile-128 {
   .tileInner {
     color: #f9f6f2;
-    background: #edd073;
+    background: #f69664;
     box-shadow: 0 0 30px 10px rgb(243 215 116 / 24%),
       inset 0 0 0 1px rgb(255 255 255 / 14%);
+      background-image: url('../../../public/img/tile7.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+  
   }
 }
 .tile-256 {
   .tileInner {
     color: #f9f6f2;
-    background: #edcc62;
+    background: #f69664;
     box-shadow: 0 0 30px 10px rgb(243 215 116 / 32%),
       inset 0 0 0 1px rgb(255 255 255 / 19%);
+      background-image: url('../../../public/img/tile8.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+  
   }
 }
 .tile-512 {
   .tileInner {
     color: #f9f6f2;
-    background: #edc950;
+    background: #f77c5f;
     box-shadow: 0 0 30px 10px rgb(243 215 116 / 40%),
       inset 0 0 0 1px rgb(255 255 255 / 24%);
+      background-image: url('../../../public/img/tile9.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+  
   }
 }
 .tile-1024 {
   .tileInner {
     color: #f9f6f2;
-    background: #edc53f;
+    background: #f77c5f;
     box-shadow: 0 0 30px 10px rgb(243 215 116 / 48%),
       inset 0 0 0 1px rgb(255 255 255 / 29%);
     font-size: 35px;
+    background-image: url('../../../public/img/tile10.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+
   }
 }
 .tile-2048 {
   .tileInner {
     color: #f9f6f2;
-    background: #edc22e;
+    background: #f75f3b;
     box-shadow: 0 0 30px 10px rgb(243 215 116 / 56%),
       inset 0 0 0 1px rgb(255 255 255 / 33%);
     font-size: 35px;
+    background-image: url('../../../public/img/tile11.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+
   }
 }
 

@@ -1,9 +1,12 @@
-import React from "react"
+// @ts-nocheck
+
+import React, { useEffect, useState } from "react"
 import Button from "../Button"
 import { useGameContext } from "../Game"
 import { GameStatus, Tile } from "../interfaces"
 import { useGameScores } from "../ScoresContainer/ScoresContainer"
-import { ConnectButton } from "@rainbow-me/rainbowkit"
+import { useAccount, usePrepareContractWrite, useContractWrite } from "wagmi"
+import { scoreAbi, scoreContractAddress } from "../../constants/constants"
 
 const DATA = {
 	WIN: {
@@ -24,11 +27,36 @@ const Result = (props: {
 	onRestart: () => void
 	playAfterWin: boolean
 	status: GameStatus
+	score: number
 }) => {
-	const { isWin, onContinue, onRestart, playAfterWin } = props
+	const { address } = useAccount()
+	const { isWin, onContinue, onRestart, playAfterWin, score } = props
+
 	const { message, buttonText, containerClass } =
 		isWin || playAfterWin ? DATA.WIN : DATA.GAME_OVER
 
+	const { data, isLoading, isSuccess, write } = useContractWrite({
+		address: scoreContractAddress,
+		abi: scoreAbi,
+		functionName: "submitScore",
+	})
+
+	const [name, setName] = useState("")
+	const recordScore = () => {
+		if (!isLoading) {
+			write({
+				args: [name, score],
+			})
+		}
+	}
+
+	useEffect(() => {
+		if (data?.hash) {
+			onRestart()
+		}
+	}, [data])
+
+	if (!score) return <></>
 	return (
 		<div className={`gameResult ${containerClass}`}>
 			<p>{message}</p>
@@ -42,7 +70,23 @@ const Result = (props: {
 					</Button>
 				)}
 				<Button onClick={() => onRestart()}>{buttonText}</Button>
-				<ConnectButton />
+				{address ? (
+					<div className="sendScore">
+						<input
+							value={name}
+							onChange={(e) => setName(e.target.value)}
+							placeholder="enter your name"
+							type="text"
+						/>
+						<Button disabled={!name} onClick={recordScore}>
+							Record score!
+						</Button>
+					</div>
+				) : (
+					<div className="sendScore">
+						Connect wallet to record score
+					</div>
+				)}
 			</div>
 		</div>
 	)
@@ -54,8 +98,6 @@ const GameResultContainer = (props: { tiles: Tile[] }) => {
 	const { status } = gameState
 
 	const [scores] = useGameScores()
-
-	console.log({ scores, status })
 
 	const handleContinue = () => {
 		dispatch({ type: "continue" })
@@ -70,6 +112,7 @@ const GameResultContainer = (props: { tiles: Tile[] }) => {
 		<>
 			{status !== "IN_PROGRESS" && status !== "PLAY_AFTER_WIN" && (
 				<Result
+					score={scores.score}
 					isWin={status === "WIN"}
 					playAfterWin={playAfterWin}
 					onRestart={handleRestart}

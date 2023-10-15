@@ -1,0 +1,47 @@
+.top {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+
+  th, td {
+    padding: 8px; // Adjust as per your preference
+  }
+
+  // Example: Setting specific width to the columns
+  th:nth-child(1), td:nth-child(1) {
+    width: 10%; // Rank
+  }
+
+  th:nth-child(2), td:nth-child(2) {
+    width: 40%; // Player Name
+  }
+
+  th:nth-child(3), td:nth-child(3) {
+    width: 30%; // Address
+  }
+
+  th:nth-child(4), td:nth-child(4) {
+    width: 20%; // Score
+  }
+}
+
+.recent {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+
+  th, td {
+    padding: 8px; // Adjust as per your preference
+  }
+  th:nth-child(1), td:nth-child(2) {
+    width: 50%; // Player Name
+  }
+
+  th:nth-child(2), td:nth-child(3) {
+    width: 30%; // Address
+  }
+
+  th:nth-child(3), td:nth-child(4) {
+    width: 20%; // Score
+  }
+}

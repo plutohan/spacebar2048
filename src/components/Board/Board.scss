@@ -26,6 +26,20 @@
   }
 }
 
+.sendScore {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  input {
+    padding-left: 12px;
+    margin-bottom: 10px;
+    height: 28px;
+    font-size: 24px;
+    color: #776e65;
+    background-color: rgba(237, 194, 46, 0.5);
+  }
+}
+
 .gameResultWin {
   background: rgba(237, 194, 46, 0.5);
 }

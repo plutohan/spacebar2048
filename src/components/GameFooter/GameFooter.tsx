@@ -1,64 +1,171 @@
-import React from "react";
-import { isMobile } from "../../utils/utils";
-import { SectionProps } from "./Interfaces";
+import React from "react"
+import { isMobile } from "../../utils/utils"
+import { SectionProps } from "./Interfaces"
+import { useContractRead } from "wagmi"
+import { scoreAbi, scoreContractAddress } from "../../constants/constants"
+
+import "./GameFooter.scss"
 
 const Section = (props: SectionProps) => {
-  return (
-    <div id={props.id}>
-      <h4>{props.title}</h4>
-      {props.children}
-      {props.bottomSeparator ? <hr /> : null}
-    </div>
-  );
-};
+	return (
+		<div id={props.id}>
+			<h3>{props.title}</h3>
+			{props.children}
+			{props.bottomSeparator ? <hr /> : null}
+		</div>
+	)
+}
 
 const GameRules = () => {
-  const text = isMobile(navigator.userAgent || navigator.vendor)
-    ? "Swipe with your fingers to move the numbers."
-    : "Use your arrow keys to move the numbers.";
+	const text = isMobile(navigator.userAgent || navigator.vendor)
+		? "Swipe with your fingers to move the numbers."
+		: "Use your arrow keys to move the numbers."
 
-  return (
-    <Section
-      id="howToPlaySection"
-      title="HOW TO PLAY"
-      bottomSeparator
-    >
-      <p>
-        {text} The same numbers will be merged
-        into one when they touch. After each move, a new number (
-        <strong>2</strong> or <strong>4</strong>) is generated at a random empty
-        position. Merge the numbers and build a 2048 number to{" "}
-        <strong>WIN</strong> the game!
-      </p>
-    </Section>
-  );
-};
+	return (
+		<Section id="howToPlaySection" title="HOW TO PLAY" bottomSeparator>
+			<p>
+				{text} The same numbers will merge into one when they touch.
+				After each move, a new number (either <strong>2</strong> or{" "}
+				<strong>4</strong>) is generated at a random empty position.
+				Merge the numbers and build a 2048 tile to <strong>WIN</strong>{" "}
+				the game!
+			</p>
+			<p>
+				If you want to record your score, connect your wallet and send a
+				transaction. You will need <strong>Goerli</strong> (Ethereum
+				testnet) ETH. You can get free Goerli ETH from{" "}
+				<a
+					href="https://goerlifaucet.com/"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					goerlifaucet.com
+				</a>{" "}
+				or from{" "}
+				<a
+					href="https://goerli-faucet.pk910.de/"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					Goerli PoW Faucet
+				</a>
+				. It may take some time for your score to reflect on the
+				leaderboard.
+			</p>
+		</Section>
+	)
+}
 
-const LearnMore = () => {
-  return (
-    <Section title="LEARN MORE">
-      <p>
-        This app is inspired by{" "}
-        <a href="https://play2048.co/">https://play2048.co/</a>. If you want to
-        learn more about the project tech stack or see the code, visit the&nbsp;
-        <a
-          href="https://github.com/grigorzyapkov/2048game"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Github repository
-        </a>
-        .
-      </p>
-    </Section>
-  );
-};
+function maskAddress(address: string): string {
+	if (address.length < 8) {
+		// Handle edge case where address is too short
+		return address
+	}
+
+	const start = address.substr(0, 4)
+	const end = address.substr(-4)
+
+	return `${start}...${end}`
+}
+
+const TopTen = () => {
+	const { data, isError, isLoading } = useContractRead({
+		address: scoreContractAddress,
+		abi: scoreAbi,
+		functionName: "getTop10Scores",
+	})
+
+	return (
+		<Section title="Top 10 Scores">
+			{data && (
+				<table className="top">
+					<thead>
+						<tr>
+							<th>Rank</th>
+							<th>Player Name</th>
+							<th>Address</th>
+							<th>Score</th>
+						</tr>
+					</thead>
+					<tbody>
+						{(
+							data as Array<{
+								playerAddress: string
+								playerName: string
+								playerScore: bigint
+							}>
+						).map((entry, index) => {
+							if (entry.playerName)
+								return (
+									<tr key={index}>
+										<td>{index + 1}</td>
+										<td>{entry.playerName}</td>
+										<td>
+											{maskAddress(entry.playerAddress)}
+										</td>
+										<td>{entry.playerScore.toString()}</td>{" "}
+										{/* Convert BigInt to string */}
+									</tr>
+								)
+						})}
+					</tbody>
+				</table>
+			)}
+		</Section>
+	)
+}
+
+const RecentTen = () => {
+	const { data, isError, isLoading } = useContractRead({
+		address: scoreContractAddress,
+		abi: scoreAbi,
+		functionName: "getRecent10Scores",
+	})
+
+	return (
+		<Section title="Recent Scores">
+			{data && (
+				<table className="recent">
+					<thead>
+						<tr>
+							<th>Player Name</th>
+							<th>Address</th>
+							<th>Score</th>
+						</tr>
+					</thead>
+					<tbody>
+						{(
+							data as Array<{
+								playerAddress: string
+								playerName: string
+								playerScore: bigint
+							}>
+						).map((entry, index) => {
+							if (entry.playerName)
+								return (
+									<tr key={index}>
+										<td>{entry.playerName}</td>
+										<td>
+											{maskAddress(entry.playerAddress)}
+										</td>
+										<td>{entry.playerScore.toString()}</td>{" "}
+										{/* Convert BigInt to string */}
+									</tr>
+								)
+						})}
+					</tbody>
+				</table>
+			)}
+		</Section>
+	)
+}
 
 export const GameFooter = () => {
-  return (
-    <div>
-      <GameRules />
-      <LearnMore />
-    </div>
-  );
-};
+	return (
+		<div>
+			<GameRules />
+			<TopTen />
+			<RecentTen />
+		</div>
+	)
+}

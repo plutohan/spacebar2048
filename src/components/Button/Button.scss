@@ -6,4 +6,9 @@
   color: #f9f6f2;
   cursor: pointer;
   font-weight: bold;
+  &:disabled {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: default;
+  }
 }
