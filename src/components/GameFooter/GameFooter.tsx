@@ -5,6 +5,7 @@ import { useContractRead } from "wagmi"
 import { scoreAbi, scoreContractAddress } from "../../constants/constants"
 
 import "./GameFooter.scss"
+import Timer from "../Timer/Timer"
 
 const Section = (props: SectionProps) => {
 	return (
@@ -115,6 +116,53 @@ const TopTen = () => {
 	)
 }
 
+const WorstTen = () => {
+	const { data, isError, isLoading } = useContractRead({
+		address: scoreContractAddress,
+		abi: scoreAbi,
+		functionName: "getWorst10Scores",
+	})
+
+	return (
+		<Section title="Worst 10 Scores">
+			{data && (
+				<table className="top">
+					<thead>
+						<tr>
+							<th>Rank</th>
+							<th>Player Name</th>
+							<th>Address</th>
+							<th>Score</th>
+						</tr>
+					</thead>
+					<tbody>
+						{(
+							data as Array<{
+								playerAddress: string
+								playerName: string
+								playerScore: bigint
+							}>
+						).map((entry, index) => {
+							if (entry.playerName)
+								return (
+									<tr key={index}>
+										<td>{index + 1}</td>
+										<td>{entry.playerName}</td>
+										<td>
+											{maskAddress(entry.playerAddress)}
+										</td>
+										<td>{entry.playerScore.toString()}</td>{" "}
+										{/* Convert BigInt to string */}
+									</tr>
+								)
+						})}
+					</tbody>
+				</table>
+			)}
+		</Section>
+	)
+}
+
 const RecentTen = () => {
 	const { data, isError, isLoading } = useContractRead({
 		address: scoreContractAddress,
@@ -164,7 +212,9 @@ export const GameFooter = () => {
 	return (
 		<div>
 			<GameRules />
+			<Timer />
 			<TopTen />
+			<WorstTen />
 			<RecentTen />
 		</div>
 	)

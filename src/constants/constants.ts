@@ -33,9 +33,16 @@ export const KEYBOARD_ARROW_TO_DIRECTION_MAP: { [key: string]: Direction } = {
 
 export const MAX_SCORE = 4096
 
-export const scoreContractAddress = "0x43b58F2093Aa3d3e1B943f8A5701279fC86417f9"
+export const scoreContractAddress = "0x2477bDA13f815fD59DA24736761A02e72511488D"
 
 export const scoreAbi = [
+	{
+		inputs: [],
+		name: "resetScores",
+		outputs: [],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
 	{
 		inputs: [
 			{
@@ -115,6 +122,36 @@ export const scoreAbi = [
 		type: "function",
 	},
 	{
+		inputs: [],
+		name: "getWorst10Scores",
+		outputs: [
+			{
+				components: [
+					{
+						internalType: "address",
+						name: "playerAddress",
+						type: "address",
+					},
+					{
+						internalType: "string",
+						name: "playerName",
+						type: "string",
+					},
+					{
+						internalType: "uint256",
+						name: "playerScore",
+						type: "uint256",
+					},
+				],
+				internalType: "struct Scoreboard.ScoreEntry[10]",
+				name: "",
+				type: "tuple[10]",
+			},
+		],
+		stateMutability: "view",
+		type: "function",
+	},
+	{
 		inputs: [
 			{
 				internalType: "uint256",
@@ -152,6 +189,35 @@ export const scoreAbi = [
 			},
 		],
 		name: "topScores",
+		outputs: [
+			{
+				internalType: "address",
+				name: "playerAddress",
+				type: "address",
+			},
+			{
+				internalType: "string",
+				name: "playerName",
+				type: "string",
+			},
+			{
+				internalType: "uint256",
+				name: "playerScore",
+				type: "uint256",
+			},
+		],
+		stateMutability: "view",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "uint256",
+				name: "",
+				type: "uint256",
+			},
+		],
+		name: "worstScores",
 		outputs: [
 			{
 				internalType: "address",
