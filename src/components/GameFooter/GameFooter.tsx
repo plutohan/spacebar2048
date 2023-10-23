@@ -77,7 +77,7 @@ const TopTen = () => {
 	})
 
 	return (
-		<Section title="Top 10 Scores">
+		<Section title="Top 10 Scores" bottomSeparator>
 			{data && (
 				<table className="top">
 					<thead>
@@ -124,7 +124,7 @@ const WorstTen = () => {
 	})
 
 	return (
-		<Section title="Worst 10 Scores">
+		<Section title="Worst 10 Scores" bottomSeparator>
 			{data && (
 				<table className="top">
 					<thead>

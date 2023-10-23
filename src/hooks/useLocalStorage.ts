@@ -22,10 +22,14 @@ const getInitialValue = (key: string, defaultValue: any) => {
 const getGameState = () => {
 	const encrypted = window.localStorage.getItem(GAME_ID)
 	let state = {}
-	if (encrypted) {
-		state = JSON.parse(
-			CryptoJS.AES.decrypt(encrypted, ran).toString(CryptoJS.enc.Utf8)
-		)
+	try {
+		if (encrypted) {
+			state = JSON.parse(
+				CryptoJS.AES.decrypt(encrypted, ran).toString(CryptoJS.enc.Utf8)
+			)
+		}
+	} catch (error) {
+		console.log({ error })
 	}
 	return state
 }
