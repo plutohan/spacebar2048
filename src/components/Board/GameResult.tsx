@@ -61,14 +61,14 @@ const Result = (props: {
 		<div className={`gameResult ${containerClass}`}>
 			<p>{message}</p>
 			<div>
-				{isWin && (
+				{/* {isWin && (
 					<Button
 						className="continueButton"
 						onClick={() => onContinue()}
 					>
 						Continue
 					</Button>
-				)}
+				)} */}
 				<Button onClick={() => onRestart()}>{buttonText}</Button>
 				{address ? (
 					<div className="sendScore">
