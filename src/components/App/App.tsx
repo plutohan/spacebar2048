@@ -25,6 +25,7 @@ const wagmiConfig = createConfig({
 })
 
 function App() {
+	console.log(process.env)
 	return (
 		<WagmiConfig config={wagmiConfig}>
 			<RainbowKitProvider
