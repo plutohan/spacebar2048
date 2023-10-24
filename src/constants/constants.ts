@@ -29,7 +29,7 @@ export const KEYBOARD_ARROW_TO_DIRECTION_MAP: { [key: string]: Direction } = {
 
 export const MAX_SCORE = 4096
 
-export const scoreContractAddress = "0xA31bF4d804a6533f4bB00fE72Fa241F57d9CdCC1"
+export const scoreContractAddress = "0xE8dAa54d64269a6307ab7DC407C34c574A88F9E5"
 
 export const scoreAbi = [
 	{

@@ -1,8 +1,8 @@
 import React, { useEffect, useReducer } from "react"
 import CryptoJS from "crypto-js"
 
-const GAME_ID = "space2048!!!"
-const ran = "space2048!!"
+const GAME_ID = process.env.REACT_APP_GAME_ID
+const seed = process.env.REACT_APP_SEED
 
 const useStateReducer = (prevState, newState) => {
 	return typeof newState === "function" ? newState(prevState) : newState
@@ -25,7 +25,9 @@ const getGameState = () => {
 	try {
 		if (encrypted) {
 			state = JSON.parse(
-				CryptoJS.AES.decrypt(encrypted, ran).toString(CryptoJS.enc.Utf8)
+				CryptoJS.AES.decrypt(encrypted, seed).toString(
+					CryptoJS.enc.Utf8
+				)
 			)
 		}
 	} catch (error) {
@@ -49,7 +51,7 @@ function useGameLocalStorage<T>(
 		state[key] = value
 		window.localStorage.setItem(
 			GAME_ID,
-			CryptoJS.AES.encrypt(JSON.stringify(state), ran).toString()
+			CryptoJS.AES.encrypt(JSON.stringify(state), seed).toString()
 		)
 	}, [value, key])
 
