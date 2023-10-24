@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer } from "react"
 import CryptoJS from "crypto-js"
 
-const GAME_ID = "space2048!"
+const GAME_ID = "space2048!!!"
 const ran = "space2048!!"
 
 const useStateReducer = (prevState, newState) => {

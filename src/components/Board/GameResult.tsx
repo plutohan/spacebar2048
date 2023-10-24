@@ -45,7 +45,7 @@ const Result = (props: {
 	const recordScore = () => {
 		if (!isLoading) {
 			write({
-				args: [name, score],
+				args: [name, score, process.env.REACT_APP_SIGNATURE],
 			})
 		}
 	}

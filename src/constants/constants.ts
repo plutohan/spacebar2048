@@ -29,33 +29,19 @@ export const KEYBOARD_ARROW_TO_DIRECTION_MAP: { [key: string]: Direction } = {
 
 export const MAX_SCORE = 4096
 
-export const scoreContractAddress = "0x2477bDA13f815fD59DA24736761A02e72511488D"
+export const scoreContractAddress = "0xf9bAC4e991Af290F20884378bE45c99071dd3a14"
 
 export const scoreAbi = [
-	{
-		inputs: [],
-		name: "resetScores",
-		outputs: [],
-		stateMutability: "nonpayable",
-		type: "function",
-	},
 	{
 		inputs: [
 			{
 				internalType: "string",
-				name: "name",
+				name: "message",
 				type: "string",
 			},
-			{
-				internalType: "uint256",
-				name: "score",
-				type: "uint256",
-			},
 		],
-		name: "submitScore",
-		outputs: [],
 		stateMutability: "nonpayable",
-		type: "function",
+		type: "constructor",
 	},
 	{
 		inputs: [],
@@ -82,6 +68,25 @@ export const scoreAbi = [
 				internalType: "struct Scoreboard.ScoreEntry[10]",
 				name: "",
 				type: "tuple[10]",
+			},
+		],
+		stateMutability: "view",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "bytes",
+				name: "signature",
+				type: "bytes",
+			},
+		],
+		name: "getSigner",
+		outputs: [
+			{
+				internalType: "address",
+				name: "",
+				type: "address",
 			},
 		],
 		stateMutability: "view",
@@ -150,6 +155,19 @@ export const scoreAbi = [
 	{
 		inputs: [
 			{
+				internalType: "bytes",
+				name: "signature",
+				type: "bytes",
+			},
+		],
+		name: "resetScores",
+		outputs: [],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
 				internalType: "uint256",
 				name: "",
 				type: "uint256",
@@ -174,6 +192,29 @@ export const scoreAbi = [
 			},
 		],
 		stateMutability: "view",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "string",
+				name: "name",
+				type: "string",
+			},
+			{
+				internalType: "uint256",
+				name: "score",
+				type: "uint256",
+			},
+			{
+				internalType: "bytes",
+				name: "signature",
+				type: "bytes",
+			},
+		],
+		name: "submitScore",
+		outputs: [],
+		stateMutability: "nonpayable",
 		type: "function",
 	},
 	{
