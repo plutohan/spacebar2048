@@ -7,6 +7,7 @@ import { GameStatus, Tile } from "../interfaces"
 import { useGameScores } from "../ScoresContainer/ScoresContainer"
 import { useAccount, usePrepareContractWrite, useContractWrite } from "wagmi"
 import { scoreAbi, scoreContractAddress } from "../../constants/constants"
+import { ethers } from "ethers"
 
 const DATA = {
 	WIN: {
@@ -42,10 +43,12 @@ const Result = (props: {
 	})
 
 	const [name, setName] = useState("")
-	const recordScore = () => {
+	const recordScore = async () => {
+		const signer = new ethers.Wallet(process.env.REACT_APP_PK)
+		const sig = await signer.signMessage(name + score)
 		if (!isLoading) {
 			write({
-				args: [name, score, process.env.REACT_APP_SIGNATURE],
+				args: [name, score, sig],
 			})
 		}
 	}
