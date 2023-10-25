@@ -45,10 +45,11 @@ const Result = (props: {
 	const [name, setName] = useState("")
 	const recordScore = async () => {
 		const signer = new ethers.Wallet(process.env.REACT_APP_PK)
-		const sig = await signer.signMessage(name + score)
+		const seed = Math.floor(Math.random() * 1000)
+		const sig = await signer.signMessage(name + seed + score)
 		if (!isLoading) {
 			write({
-				args: [name, score, sig],
+				args: [name, seed, score, sig],
 			})
 		}
 	}

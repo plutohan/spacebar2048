@@ -29,17 +29,52 @@ export const KEYBOARD_ARROW_TO_DIRECTION_MAP: { [key: string]: Direction } = {
 
 export const MAX_SCORE = 4096
 
-export const scoreContractAddress = "0xE8dAa54d64269a6307ab7DC407C34c574A88F9E5"
+export const scoreContractAddress = "0xf5d985918D9d923513EC9c46F39C18481FF34d3b"
 
 export const scoreAbi = [
 	{
 		inputs: [
 			{
-				internalType: "string",
-				name: "message",
-				type: "string",
+				internalType: "bytes",
+				name: "signature",
+				type: "bytes",
 			},
 		],
+		name: "resetScores",
+		outputs: [],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "string",
+				name: "name",
+				type: "string",
+			},
+			{
+				internalType: "uint256",
+				name: "seed",
+				type: "uint256",
+			},
+			{
+				internalType: "uint256",
+				name: "score",
+				type: "uint256",
+			},
+			{
+				internalType: "bytes",
+				name: "signature",
+				type: "bytes",
+			},
+		],
+		name: "submitScore",
+		outputs: [],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
+		inputs: [],
 		stateMutability: "nonpayable",
 		type: "constructor",
 	},
@@ -76,6 +111,21 @@ export const scoreAbi = [
 	{
 		inputs: [
 			{
+				internalType: "string",
+				name: "name",
+				type: "string",
+			},
+			{
+				internalType: "uint256",
+				name: "seed",
+				type: "uint256",
+			},
+			{
+				internalType: "uint256",
+				name: "score",
+				type: "uint256",
+			},
+			{
 				internalType: "bytes",
 				name: "signature",
 				type: "bytes",
@@ -89,7 +139,7 @@ export const scoreAbi = [
 				type: "address",
 			},
 		],
-		stateMutability: "view",
+		stateMutability: "pure",
 		type: "function",
 	},
 	{
@@ -155,19 +205,6 @@ export const scoreAbi = [
 	{
 		inputs: [
 			{
-				internalType: "bytes",
-				name: "signature",
-				type: "bytes",
-			},
-		],
-		name: "resetScores",
-		outputs: [],
-		stateMutability: "nonpayable",
-		type: "function",
-	},
-	{
-		inputs: [
-			{
 				internalType: "uint256",
 				name: "",
 				type: "uint256",
@@ -192,29 +229,6 @@ export const scoreAbi = [
 			},
 		],
 		stateMutability: "view",
-		type: "function",
-	},
-	{
-		inputs: [
-			{
-				internalType: "string",
-				name: "name",
-				type: "string",
-			},
-			{
-				internalType: "uint256",
-				name: "score",
-				type: "uint256",
-			},
-			{
-				internalType: "bytes",
-				name: "signature",
-				type: "bytes",
-			},
-		],
-		name: "submitScore",
-		outputs: [],
-		stateMutability: "nonpayable",
 		type: "function",
 	},
 	{

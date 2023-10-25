@@ -24,10 +24,11 @@ contract Scoreboard {
 
     function submitScore(
         string memory name,
+        uint seed,
         uint score,
         bytes memory signature
     ) public {
-        require(getSigner(name, score, signature) == _signer);
+        require(getSigner(name, seed, score, signature) == _signer);
         ScoreEntry memory newEntry = ScoreEntry({
             playerAddress: msg.sender,
             playerName: name,
@@ -39,7 +40,7 @@ contract Scoreboard {
     }
 
     function resetScores(bytes memory signature) public {
-        require(getSigner("reset", 0, signature) == _signer);
+        require(getSigner("reset", 0, 0, signature) == _signer);
         for (uint i = 0; i < 10; i++) {
             topScores[i] = ScoreEntry({
                 playerAddress: address(0),
@@ -123,11 +124,12 @@ contract Scoreboard {
 
     function getSigner(
         string memory name,
+        uint seed,
         uint score,
         bytes memory signature
     ) public pure returns (address) {
         (address signer, , ) = toEthSignedMessageHash(
-            bytes(string.concat(name, Strings.toString(score)))
+            bytes(string.concat(name, Strings.toString(seed), Strings.toString(score)))
         ).tryRecover(signature);
         return signer;
     }
